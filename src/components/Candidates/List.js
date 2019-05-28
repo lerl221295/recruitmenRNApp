@@ -11,6 +11,7 @@ export default class CandidatesList extends Component {
 	};
 
 	render() {
+		console.log('rendering the list');
 		return (
 			<FlatList
 				keyExtractor={this.keyExtractor}
