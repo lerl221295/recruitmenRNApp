@@ -7,7 +7,9 @@ import Filters from './filterContainer';
 
 import {
   getCandidates,
-  getTechnologies
+  getTechnologies,
+  rejectCandidate,
+  acceptCandidate
 } from './actions';
 
 import {
@@ -71,7 +73,9 @@ export class Candidates extends Component {
       technologies,
       apiDataError,
       loading,
-      dataLoaded
+      dataLoaded,
+      rejectCandidate,
+      acceptCandidate
     } = this.props;
 
     if (loading) {
@@ -96,6 +100,8 @@ export class Candidates extends Component {
         <CandidatesList 
           candidates={this.filter(candidates).map(key => candidates[key])}
           technologies={technologies}
+          rejectCandidate={rejectCandidate}
+          acceptCandidate={acceptCandidate}
         />
       </View>
     );
@@ -124,6 +130,6 @@ const mapStateToProps = (state) => ({
   dataLoaded: selectTechnologiesLoaded(state) || selectCandidatesLoaded(state)
 });
 
-const actions = { getCandidates, getTechnologies };
+const actions = { getCandidates, getTechnologies, rejectCandidate, acceptCandidate };
 
 export default connect(mapStateToProps, actions)(Candidates);

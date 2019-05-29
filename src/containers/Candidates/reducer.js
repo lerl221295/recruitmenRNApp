@@ -7,12 +7,16 @@ import {
   SET_TECHNOLOGIES,
   GET_API_DATA_ERROR,
   SET_SEARCH_VALUE,
-  SET_MINIMUM_YEARS
+  SET_MINIMUM_YEARS,
+  REJECT_CANDIDATE,
+  ACCEPT_CANDIDATE
 } from './constants';
 
 const initialState = fromJS({
   byId: {},
   filteredIds: [],
+  deletedById: {},
+  acceptedById: {},
   loadingCandidates: true,
   loadedCandidates: false,
   technologies: {},
@@ -31,7 +35,10 @@ const candidatesReducer = (state = initialState, action) => {
 
     case SET_CANDIDATES:
       const candidates = action.data.reduce((map, candidate) => {
-        map[candidate._id] = candidate;
+        if(!state.hasIn(['deletedById', candidate._id])
+          && !state.hasIn(['acceptedById', candidate._id])) {
+          map[candidate._id] = candidate;
+        }
         return map;
       }, {})
       return state
@@ -66,6 +73,16 @@ const candidatesReducer = (state = initialState, action) => {
     case SET_MINIMUM_YEARS:
       return state
         .set('minimumYears', Math.ceil(action.value));
+
+    case REJECT_CANDIDATE:
+      return state
+        .setIn(['deletedById', action.id], state.getIn(['byId', action.id]))
+        .deleteIn(['byId', action.id]);
+    
+    case ACCEPT_CANDIDATE:
+      return state
+        .setIn(['acceptedById', action.id], state.getIn(['byId', action.id]))
+        .deleteIn(['byId', action.id]);
 
     default:
       return state;

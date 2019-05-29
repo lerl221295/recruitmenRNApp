@@ -5,18 +5,23 @@ import { Card } from 'react-native-elements';
 
 
 export default class CandidatesList extends Component {
-	
 	keyExtractor(item, index){
-		return index.toString();
+		return item._id;
 	};
 
 	render() {
-		console.log('rendering the list');
+		const {rejectCandidate, acceptCandidate} = this.props;
 		return (
 			<FlatList
 				keyExtractor={this.keyExtractor}
 				data={this.props.candidates}
-				renderItem={({item}) => <ListItem data={item} />}
+				renderItem={({item}) => (
+					<ListItem 
+						data={item}
+						acceptFn={() => acceptCandidate(item._id)}
+						rejectFn={() => rejectCandidate(item._id)}
+					/>
+				)}			
 			/>
 		)
 	}

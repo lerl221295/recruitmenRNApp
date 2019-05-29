@@ -8,3 +8,6 @@ export const GET_API_DATA_ERROR = 'containers/Candidates/GET_API_DATA_ERROR';
 
 export const SET_SEARCH_VALUE = 'containers/Filters/SET_SEARCH_VALUE';
 export const SET_MINIMUM_YEARS = 'containers/Filters/SET_MINIMUM_YEARS';
+
+export const REJECT_CANDIDATE = 'containers/Candidates/REJECT_CANDIDATE';
+export const ACCEPT_CANDIDATE = 'containers/Candidates/ACCEPT_CANDIDATE';

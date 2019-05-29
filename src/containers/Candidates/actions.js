@@ -6,7 +6,9 @@ import {
   GET_API_DATA_ERROR,
   SET_SEARCH_VALUE,
   SET_MINIMUM_YEARS,
-  SET_MAXIMUM_YEARS
+  SET_MAXIMUM_YEARS,
+  REJECT_CANDIDATE,
+  ACCEPT_CANDIDATE
 } from './constants';
 
 export const getCandidates = () => ({
@@ -41,4 +43,14 @@ export const setSearchValue = (value) => ({
 export const setMinimumYearsValue = (value) => ({
   type: SET_MINIMUM_YEARS,
   value
+});
+
+export const rejectCandidate = (id) => ({
+  type: REJECT_CANDIDATE,
+  id
+});
+
+export const acceptCandidate = (id) => ({
+  type: ACCEPT_CANDIDATE,
+  id
 });
