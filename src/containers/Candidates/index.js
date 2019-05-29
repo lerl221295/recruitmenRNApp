@@ -91,7 +91,7 @@ export class Candidates extends Component {
     }
 
     return (
-      <View>
+      <View style={[centerStyle.container]}>
         <Filters/>
         <CandidatesList 
           candidates={this.filter(candidates).map(key => candidates[key])}
