@@ -1,40 +1,43 @@
 import React, {PureComponent} from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ToastAndroid } from 'react-native';
 import { ListItem, Divider, Icon } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 
-const IconComponent = ({name, type, color}) => (
-	<View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-      }}
-  	>
-  		<Icon
-		  name={name}
-		  type={type}
-		  color={color}
-		/>
-    </View>
-);
-
-const buildSwipperButton = (onPress, name, type, color) => ([{
+const buildSwipperButton = () => ([{
     backgroundColor: '#ffffff',
-    onPress,
-    component: <IconComponent name={name} type={type} color={color} />
+    text: ''
 }]);
 
 export default class CandidatesListItem extends PureComponent {
-	render() {
+	handleAction(sectionId, rowId, direction) {
 		const {acceptFn, rejectFn} = this.props;
-		const {_id, name, picture, email, phone} = this.props.data;
+		if(direction) {
+			switch (direction) {
+				case 'left':
+					acceptFn();
+					ToastAndroid.show('Candidate accepted !', ToastAndroid.SHORT);
+					break;
+				case 'right':
+					rejectFn();
+					ToastAndroid.show('Candidate rejected !', ToastAndroid.SHORT);
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	render() {
+		const {setScrollEnabled, data} = this.props;
+		const {_id, name, picture, email, phone} = data;
 		return (
 			<Swipeout 
-				left={buildSwipperButton(acceptFn, 'thumbs-up', 'font-awesome', 'green')}
-				right={buildSwipperButton(rejectFn, 'thumbs-down', 'font-awesome', 'red')}
+				left={buildSwipperButton()}
+				right={buildSwipperButton()}
 				scroll={setScrollEnabled}
+				buttonWidth={400}
+				sensitivity={20}
+				onOpen={this.handleAction.bind(this)}
 			>
         		<View>
         			<ListItem	
