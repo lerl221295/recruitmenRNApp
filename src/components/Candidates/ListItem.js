@@ -34,6 +34,7 @@ export default class CandidatesListItem extends PureComponent {
 			<Swipeout 
 				left={buildSwipperButton(acceptFn, 'thumbs-up', 'font-awesome', 'green')}
 				right={buildSwipperButton(rejectFn, 'thumbs-down', 'font-awesome', 'red')}
+				scroll={setScrollEnabled}
 			>
         		<View>
         			<ListItem	
