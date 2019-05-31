@@ -1,29 +1,26 @@
 import React, {PureComponent} from 'react';
 import { StyleSheet, View, Text, ToastAndroid } from 'react-native';
-import { ListItem, Divider, Icon } from 'react-native-elements';
-import Swipeout from 'react-native-swipeout';
-
-const buildSwipperButton = () => ([{
-    backgroundColor: '#ffffff',
-    text: ''
-}]);
+import { ListItem, Divider } from 'react-native-elements';
+import Swiper from 'react-native-swiper';
 
 export default class CandidatesListItem extends PureComponent {
-	handleAction(sectionId, rowId, direction) {
+	state = {
+		layoutHeight: 1
+	}
+
+	handleAction(sectionId) {
 		const {acceptFn, rejectFn} = this.props;
-		if(direction) {
-			switch (direction) {
-				case 'left':
-					acceptFn();
-					ToastAndroid.show('Candidate accepted !', ToastAndroid.SHORT);
-					break;
-				case 'right':
-					rejectFn();
-					ToastAndroid.show('Candidate rejected !', ToastAndroid.SHORT);
-					break;
-				default:
-					break;
-			}
+		switch (sectionId) {
+			case 0:
+				acceptFn();
+				ToastAndroid.show('Candidate accepted !', ToastAndroid.SHORT);
+				break;
+			case 2:
+				rejectFn();
+				ToastAndroid.show('Candidate rejected !', ToastAndroid.SHORT);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -31,15 +28,18 @@ export default class CandidatesListItem extends PureComponent {
 		const {setScrollEnabled, data} = this.props;
 		const {_id, name, picture, email, phone} = data;
 		return (
-			<Swipeout 
-				left={buildSwipperButton()}
-				right={buildSwipperButton()}
-				scroll={setScrollEnabled}
-				buttonWidth={400}
-				sensitivity={20}
-				onOpen={this.handleAction.bind(this)}
+			<Swiper 
+				height={this.state.layoutHeight}
+				index={1}
+				showsPagination={false}
+				showsButtons={false}
+				onIndexChanged={this.handleAction.bind(this)}
 			>
-        		<View>
+        		<View/>
+        		<View onLayout={(event) => {
+					const {height} = event.nativeEvent.layout;
+					this.setState({layoutHeight: height});
+				}}>
         			<ListItem	
 						title={`${name.first} ${name.last}`}
 						subtitle={email}
@@ -49,7 +49,8 @@ export default class CandidatesListItem extends PureComponent {
 					/>
 					<Divider style={dividerStyle} />
         		</View>
-			</Swipeout>
+        		<View/>
+			</Swiper>
 		)
 	}
 }
