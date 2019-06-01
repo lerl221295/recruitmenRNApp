@@ -4,9 +4,7 @@ import { ListItem, Divider, Icon } from 'react-native-elements';
 import Swiper from 'react-native-swiper';
 
 export default class CandidatesListItem extends PureComponent {
-	state = {
-		layoutHeight: 1
-	}
+	itemHeight = 74;
 
 	handleAction(sectionId) {
 		const {acceptFn, rejectFn} = this.props;
@@ -29,7 +27,7 @@ export default class CandidatesListItem extends PureComponent {
 		const {_id, name, picture, email, phone} = data;
 		return (
 			<Swiper 
-				height={this.state.layoutHeight}
+				height={this.itemHeight + 1}
 				index={1}
 				showsPagination={false}
 				showsButtons={false}
@@ -44,14 +42,12 @@ export default class CandidatesListItem extends PureComponent {
 	        			</View>
         			</View>
         		</View>
-        		<View onLayout={(event) => {
-					const {height} = event.nativeEvent.layout;
-					this.setState({layoutHeight: height});
-				}}>
+        		<View>
         			<ListItem	
 						title={`${name.first} ${name.last}`}
 						subtitle={email}
 						//rightSubtitle={phone}
+						containerStyle={{height: this.itemHeight}}
 						roundAvatar
 						leftAvatar={{ source: { uri: picture } }}
 					/>
