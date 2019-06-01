@@ -22,7 +22,7 @@ export default class Filters extends Component {
 		      	<View style={{marginRight: 4, marginLeft: 8}}>
 					<Slider
 				    	value={minimumYears}
-				    	onValueChange={setMinimumYearsValue}
+				    	onSlidingComplete={setMinimumYearsValue}
 				    	maximumValue={20}
 				  	/>
 				  	<Text>Minimum experience: {minimumYears} years</Text>
