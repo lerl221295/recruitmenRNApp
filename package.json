@@ -1,18 +1,17 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "eject": "expo eject"
+    "start": "react-native start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios"
   },
   "dependencies": {
-    "expo": "^32.0.0",
+    "@babel/runtime": "^7.0.0",
     "immutable": "^4.0.0-rc.12",
     "react": "16.5.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native": "0.57.1",
     "react-native-elements": "^1.1.0",
     "react-native-swiper": "^1.5.14",
+    "react-native-vector-icons": "^6.4.2",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
     "redux-persist": "^5.10.0",
@@ -20,7 +19,7 @@
     "redux-saga": "^1.0.2"
   },
   "devDependencies": {
-    "babel-preset-expo": "^5.0.0"
+    "metro-react-native-babel-preset": "^0.54.1"
   },
   "private": true
 }
