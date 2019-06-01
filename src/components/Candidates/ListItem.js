@@ -1,57 +1,79 @@
 import React, {PureComponent} from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ToastAndroid } from 'react-native';
 import { ListItem, Divider, Icon } from 'react-native-elements';
-import Swipeout from 'react-native-swipeout';
-
-const IconComponent = ({name, type, color}) => (
-	<View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-      }}
-  	>
-  		<Icon
-		  name={name}
-		  type={type}
-		  color={color}
-		/>
-    </View>
-);
-
-const buildSwipperButton = (onPress, name, type, color) => ([{
-    backgroundColor: '#ffffff',
-    onPress,
-    component: <IconComponent name={name} type={type} color={color} />
-}]);
+import Swiper from 'react-native-swiper';
 
 export default class CandidatesListItem extends PureComponent {
-	render() {
+	itemHeight = 74;
+
+	handleAction(sectionId) {
 		const {acceptFn, rejectFn} = this.props;
-		const {_id, name, picture, email, phone} = this.props.data;
+		switch (sectionId) {
+			case 0:
+				acceptFn();
+				ToastAndroid.show('Candidate accepted !', ToastAndroid.SHORT);
+				break;
+			case 2:
+				rejectFn();
+				ToastAndroid.show('Candidate rejected !', ToastAndroid.SHORT);
+				break;
+			default:
+				break;
+		}
+	}
+
+	render() {
+		const {setScrollEnabled, data} = this.props;
+		const {_id, name, picture, email, phone} = data;
 		return (
-			<Swipeout 
-				left={buildSwipperButton(acceptFn, 'thumbs-up', 'font-awesome', 'green')}
-				right={buildSwipperButton(rejectFn, 'thumbs-down', 'font-awesome', 'red')}
-				scroll={setScrollEnabled}
+			<Swiper 
+				height={this.itemHeight + 1}
+				index={1}
+				showsPagination={false}
+				showsButtons={false}
+				onIndexChanged={this.handleAction.bind(this)}
 			>
+        		<View style={{flex: 1, backgroundColor: '#4BB543'}} >
+        			<View style={{alignSelf: 'flex-end'}}>
+        				<View style={{alignSelf: 'flex-start', paddingRight: 5}}>
+	        				<View  style={styles.iconContainer}> 
+	        					<Icon type='font-awesome' name="thumbs-up" color="#ffffff" />
+	        				</View>
+	        			</View>
+        			</View>
+        		</View>
         		<View>
         			<ListItem	
 						title={`${name.first} ${name.last}`}
 						subtitle={email}
 						//rightSubtitle={phone}
+						containerStyle={{height: this.itemHeight}}
 						roundAvatar
 						leftAvatar={{ source: { uri: picture } }}
 					/>
-					<Divider style={dividerStyle} />
+					<Divider style={styles.dividerStyle} />
         		</View>
-			</Swipeout>
+        		<View style={{flex: 1, backgroundColor: 'red'}} >
+        			<View style={{alignSelf: 'flex-start', paddingLeft: 5}}>
+	        			<View  style={styles.iconContainer}> 
+	        				<Icon type='font-awesome' name="thumbs-down" color="#ffffff" />
+	        			</View>
+        			</View>
+        		</View>
+			</Swiper>
 		)
 	}
 }
 
-const dividerStyle = { 
-	backgroundColor: 'gray',
-	height: 1
+const styles = {
+	iconContainer: { 
+	    flex: 1,
+	    alignItems: 'center', 
+	    justifyContent: 'center', 
+	    flexDirection: 'column'
+	},
+	dividerStyle: {
+		backgroundColor: 'gray',
+		height: 1
+	}
 }
