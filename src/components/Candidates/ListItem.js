@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import { StyleSheet, View, Text, ToastAndroid } from 'react-native';
-import { ListItem, Divider } from 'react-native-elements';
+import { ListItem, Divider, Icon } from 'react-native-elements';
 import Swiper from 'react-native-swiper';
 
 export default class CandidatesListItem extends PureComponent {
@@ -35,7 +35,15 @@ export default class CandidatesListItem extends PureComponent {
 				showsButtons={false}
 				onIndexChanged={this.handleAction.bind(this)}
 			>
-        		<View/>
+        		<View style={{flex: 1, backgroundColor: '#4BB543'}} >
+        			<View style={{alignSelf: 'flex-end'}}>
+        				<View style={{alignSelf: 'flex-start', paddingRight: 5}}>
+	        				<View  style={styles.iconContainer}> 
+	        					<Icon type='font-awesome' name="thumbs-up" color="#ffffff" />
+	        				</View>
+	        			</View>
+        			</View>
+        		</View>
         		<View onLayout={(event) => {
 					const {height} = event.nativeEvent.layout;
 					this.setState({layoutHeight: height});
@@ -47,15 +55,29 @@ export default class CandidatesListItem extends PureComponent {
 						roundAvatar
 						leftAvatar={{ source: { uri: picture } }}
 					/>
-					<Divider style={dividerStyle} />
+					<Divider style={styles.dividerStyle} />
         		</View>
-        		<View/>
+        		<View style={{flex: 1, backgroundColor: 'red'}} >
+        			<View style={{alignSelf: 'flex-start', paddingLeft: 5}}>
+	        			<View  style={styles.iconContainer}> 
+	        				<Icon type='font-awesome' name="thumbs-down" color="#ffffff" />
+	        			</View>
+        			</View>
+        		</View>
 			</Swiper>
 		)
 	}
 }
 
-const dividerStyle = { 
-	backgroundColor: 'gray',
-	height: 1
+const styles = {
+	iconContainer: { 
+	    flex: 1,
+	    alignItems: 'center', 
+	    justifyContent: 'center', 
+	    flexDirection: 'column'
+	},
+	dividerStyle: {
+		backgroundColor: 'gray',
+		height: 1
+	}
 }
